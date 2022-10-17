@@ -1,0 +1,21 @@
+---
+title: "Ejercicios propuestos"
+author: "Jimena Lopez"
+date: "2022-10-17"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Ejercicio 1
+
+# Ejercicio 2
+
+# Ejercicio 3
+
+# Ejercicio 4
+
+# Ejercicio 5
+
