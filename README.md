@@ -17,6 +17,7 @@
 | Descripción | Fecha |
 |-------------|-------|
 | Reunión inicial | 11/10/2022 |
+| Segunda reunión | 18/10/2022 |
 
 ## Actividades a realizar
 
