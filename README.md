@@ -18,6 +18,11 @@
 |-------------|-------|
 | Reunión inicial | 11/10/2022 |
 | Segunda reunión | 18/10/2022 |
+| Tercera reunión | 20/10/2022 |
+
+* Reunición inicial: primer contacto y presentación de los integrantes del grupo. Subir los archivos necesarios para el trabajo.
+* Segunda reunición: primera lluvia de ideas para el trabajo.
+
 
 ## Actividades a realizar
 
