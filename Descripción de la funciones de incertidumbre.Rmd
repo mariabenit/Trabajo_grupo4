@@ -1,0 +1,58 @@
+---
+title: "Descripción de las funciones de incertidumbre"
+author: "María Benítez Moreno"
+date: "2022-10-20"
+output: 
+  pdf_document:
+    number_sections: yes
+    toc: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, eval = FALSE)
+```
+
+# ¿Qué hacen las funciones de incertidumbre?
+En los siguientes apartados explicaremos un poco en que consiste cada criterio y  
+para las funciones cuales son los datos que debemos meter y para que sirven, además 
+de lo que muestra la salida.  
+
+## Criterio de Wald o Pesimista
+```{r}
+criterio.Wald = function(tablaX,favorable=TRUE) {
+
+  X = tablaX;
+  if (favorable) {
+    AltW = apply(X,MARGIN=1,min);
+    ##AltW
+    Wald = max(AltW);
+    Alt_Wald = which.max.general(AltW);
+    metodo = 'favorable';
+  } else {
+    AltW = apply(X,MARGIN=1,max);
+    ##AltW
+    Wald = min(AltW);
+    Alt_Wald = which.min.general(AltW);
+    metodo = 'desfavorable';
+  }
+  resultados = list();
+  resultados$criterio = 'Wald';
+  resultados$metodo = metodo;
+  resultados$tablaX = tablaX;
+  resultados$ValorAlternativas = AltW;
+  resultados$ValorOptimo = Wald;
+  resultados$AlternativaOptima = Alt_Wald;
+  resultados$Recomendación = paste("Por lo tanto, la alternativa recomendada
+                                   es la número", Alt_Wald);
+
+  return(resultados);
+
+  
+}
+```
+
+## Criterio optimista
+## Criterio Hurwicz
+## Criterio Savage
+## Criterio Laplace
+## Criterio PuntoIdeal
