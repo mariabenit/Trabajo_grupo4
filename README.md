@@ -22,7 +22,7 @@
 
 * Reunición inicial: primer contacto y presentación de los integrantes del grupo. Subir los archivos necesarios para el trabajo.
 * Segunda reunión: primera lluvia de ideas para el trabajo.
-* Tercera reunión: revisión de los códigos y primeras ideas.
+* Tercera reunión: revisión de los códigos, primeras ideas y primeras modificaciones del código.
 
 
 ## Actividades a realizar
