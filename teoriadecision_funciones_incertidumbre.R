@@ -84,10 +84,11 @@ criterio.Wald = function(tablaX,favorable=TRUE) {
   resultados$ValorAlternativas = AltW;
   resultados$ValorOptimo = Wald;
   resultados$AlternativaOptima = Alt_Wald;
+  resultados$Recomendación = paste("Por lo tanto, la alternativa recomendada es la número", Alt_Wald);
 
   return(resultados);
 
-
+  
 }
 
 
@@ -117,7 +118,8 @@ criterio.Optimista = function(tablaX,favorable=TRUE) {
   resultados$ValorAlternativas = AltM;
   resultados$ValorOptimo = Maximax;
   resultados$AlternativaOptima = Alt_Maximax;
-
+  resultados$Recomendación = paste("Por lo tanto, la alternativa recomendada es la número", Alt_Maximax);
+  
   return(resultados);
 
 
@@ -152,6 +154,7 @@ criterio.Hurwicz = function(tablaX,alfa=0.3,favorable=TRUE) {
   resultados$ValorAlternativas = AltH;
   resultados$ValorOptimo = Hurwicz;
   resultados$AlternativaOptima = Alt_Hurwicz;
+  resultados$Recomendación = paste("Por lo tanto, la alternativa recomendada es la número", Alt_Hurwicz);
 
   return(resultados);
 
@@ -441,6 +444,7 @@ criterio.Savage = function(tablaX,favorable=TRUE) {
   resultados$ValorAlternativas = AltWS;
   resultados$ValorOptimo = Savage;
   resultados$AlternativaOptima = Alt_Savage;
+  resultados$Recomendación = paste("Por lo tanto, la alternativa recomendada es la número", Alt_Savage);
 
   return(resultados);
 
@@ -470,6 +474,7 @@ criterio.Laplace = function(tablaX,favorable=TRUE) {
   resultados$ValorAlternativas = AltL;
   resultados$ValorOptimo = Laplace;
   resultados$AlternativaOptima = Alt_Laplace;
+  resultados$Recomendación = paste("Por lo tanto, la alternativa recomendada es la número", Alt_Laplace);
 
   return(resultados);
 
@@ -511,50 +516,39 @@ criterio.PuntoIdeal = function(tablaX,favorable=TRUE) {
   resultados$ValorAlternativas = AltPT;
   resultados$ValorOptimo = PuntoIdeal;
   resultados$AlternativaOptima = Alt_PuntoIdeal;
+  resultados$Recomendación = paste("Por lo tanto, la alternativa recomendada es la número", Alt_PuntoIdeal);
 
   return(resultados);
 
 }
 
 criterio.Todos = function(tablaX,alfa=0.3,favorable=TRUE) {
-
+  
+  # Se ejecutan cada uno de los criterios  
   cri01 = criterio.Wald(tablaX,favorable);
   cri02 = criterio.Optimista(tablaX,favorable);
   cri03 = criterio.Hurwicz(tablaX,alfa,favorable);
   cri04 = criterio.Savage(tablaX,favorable);
   cri05 = criterio.Laplace(tablaX,favorable);
   cri06 = criterio.PuntoIdeal(tablaX,favorable);
-
+  
+  # Se definen el numero de estados y de alternativas
   numestados = ncol(tablaX)
   numalterna = nrow(tablaX)
-
+  
+  # Une en una sola tabla la tabla de alternativas y criterios ingresada,
+  # y una columna con las valoraciones para cada alternativa por cada criterio
   resultado = cbind(tablaX,cri01$ValorAlternativas,cri02$ValorAlternativas,
                     cri03$ValorAlternativas,cri04$ValorAlternativas,
                     cri05$ValorAlternativas,cri06$ValorAlternativas);
-
-  decopt = c(rep(NA,numestados),cri01$AlternativaOptima[1],
-             cri02$AlternativaOptima[1],cri03$AlternativaOptima[1],
-             cri04$AlternativaOptima[1],cri05$AlternativaOptima[1],
-             cri06$AlternativaOptima[1]);
-
-  resultado = rbind(resultado,decopt);
-
-  colnames(resultado)[numestados+1] = cri01$criterio;
-  colnames(resultado)[numestados+2] = cri02$criterio;
-  colnames(resultado)[numestados+3] = cri03$criterio;
-  colnames(resultado)[numestados+4] = cri04$criterio;
-  colnames(resultado)[numestados+5] = cri05$criterio;
-  colnames(resultado)[numestados+6] = cri06$criterio;
-
-  if (favorable) {
-    rownames(resultado)[numalterna+1] = 'iAlt.Opt (fav.)';
-  } else {
-    rownames(resultado)[numalterna+1] = 'iAlt.Opt (Desfav.)';
-  }
-
-  ## nuevo
+  
+  # Se transforma el objeto a uno del tipo data frame
+  # y se configura un maximo de 3 cifras decimales
   resultado = as.data.frame(resultado)
-  resultado = format(resultado,digits=4)
+  resultado = format(resultado,digits=4);
+  
+  # Se define un vector 1x(numero de estados + numero de criterios)
+  # con la alternativa optima correspondiente
   decopt = c(rep('--',numestados),
              paste0(names(cri01$AlternativaOptima),collapse = ","),
              paste0(names(cri02$AlternativaOptima),collapse = ","),
@@ -562,11 +556,41 @@ criterio.Todos = function(tablaX,alfa=0.3,favorable=TRUE) {
              paste0(names(cri04$AlternativaOptima),collapse = ","),
              paste0(names(cri05$AlternativaOptima),collapse = ","),
              paste0(names(cri06$AlternativaOptima),collapse = ","));
-  resultado[nrow(resultado),] = decopt
-  ## fin nuevo
-
-  return(resultado)
-
+  
+  # Se unen las decisiones optimas como fila del data frame
+  resultado = rbind(resultado,decopt);
+  
+  # Se asignan los nombres a las columnas correspondientes a cada criterio
+  colnames(resultado)[numestados+1] = cri01$criterio;
+  colnames(resultado)[numestados+2] = cri02$criterio;
+  colnames(resultado)[numestados+3] = cri03$criterio;
+  colnames(resultado)[numestados+4] = cri04$criterio;
+  colnames(resultado)[numestados+5] = cri05$criterio;
+  colnames(resultado)[numestados+6] = cri06$criterio;
+  
+  # Se define el nombre de la columna dependiendo de si el caso es favorable o desfavorable
+  if (favorable) {
+    rownames(resultado)[numalterna+1] = 'iAlt.Opt (fav.)';
+  } else {
+    rownames(resultado)[numalterna+1] = 'iAlt.Opt (Desfav.)';
+  }
+  
+  # Se cuenta el numero de veces que un alternativa fue elegida por los distintos criterios
+  NumVecEle <- rep(0, numalterna+1)
+  for (i in 1:(numalterna+1)) {
+    NumVecEle[i] <- sum(rep(rownames(resultado)[i],6+numestados)==decopt)
+  }
+  
+  # Se incorpora la columna NumVecEle en el data frame
+  resultado[,ncol(resultado)+1] = as.data.frame(NumVecEle)
+  # Se define un nuevo dataframe a partir del anterior ordenado por la columna NumVecEle
+  AltMax = resultado[with(resultado, order(-resultado$NumVecEle)), ]
+  
+  # Se define el texto a imprimir
+  Texto <- paste("La mejor alternativa es", rownames(AltMax)[1], 
+                 ", la cual es preferida en", max(NumVecEle),
+                 "de los 6 criterios que se implementaron")
+  
+  return(list(Tabla=resultado,Recomendacion=Texto))
+  
 }
-
-
