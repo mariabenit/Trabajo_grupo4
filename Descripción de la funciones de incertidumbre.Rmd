@@ -52,6 +52,38 @@ criterio.Wald = function(tablaX,favorable=TRUE) {
 ```
 
 ## Criterio optimista
+```{r}
+criterio.Optimista = function(tablaX,favorable=TRUE) {
+
+  X = tablaX;
+  if (favorable) {
+    AltM = apply(X,MARGIN=1,max);
+    ##AltM
+    Maximax = max(AltM);
+    Alt_Maximax = which.max.general(AltM);
+    metodo = 'favorable';
+  } else {
+    AltM = apply(X,MARGIN=1,min);
+    ##AltM
+    Maximax = min(AltM);
+    Alt_Maximax = which.min.general(AltM);
+    metodo = 'desfavorable';
+  }
+  resultados = list();
+  resultados$criterio = 'Optimista';
+  resultados$metodo = metodo;
+  resultados$tablaX = tablaX;
+  resultados$ValorAlternativas = AltM;
+  resultados$ValorOptimo = Maximax;
+  resultados$AlternativaOptima = Alt_Maximax;
+  resultados$Recomendación = paste("Por lo tanto, la alternativa recomendada es la número", Alt_Maximax);
+  
+  return(resultados);
+
+
+}
+```
+
 ## Criterio Hurwicz
 ## Criterio Savage
 ## Criterio Laplace
