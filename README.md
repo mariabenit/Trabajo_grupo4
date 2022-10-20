@@ -21,7 +21,8 @@
 | Tercera reunión | 20/10/2022 |
 
 * Reunición inicial: primer contacto y presentación de los integrantes del grupo. Subir los archivos necesarios para el trabajo.
-* Segunda reunición: primera lluvia de ideas para el trabajo.
+* Segunda reunión: primera lluvia de ideas para el trabajo.
+* Tercera reunión: revisión de los códigos.
 
 
 ## Actividades a realizar
