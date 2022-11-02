@@ -7,9 +7,62 @@ output: pdf_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+source("teoriadecision_funciones_incertidumbre.R")
 ```
 
 # Ejercicio 1
+
+Un estudiante quiere decidir que debe hacer al terminar sus estudios de grado. Suponiendo que todas las opciones son posibles, desea escoger la mejor alternativa para su futuro.
+
+* Alternativas
+
+  - Trabajar en su país de origen
+  - Trabajar en el extranjero
+  - Hacer una maestría en su país de origen
+  - Hacer una maestría en su país de origen y trabajar 
+  - Hacer una maestría en el extranjero
+  - Hacer una maestría en el extranjero y trabajar
+
+* Criterios
+
+  - Satisfacción personal
+  - Costos educación
+  - Costos manutención
+  - Ingresos
+  - Oportunidades que puede encontrar
+  - Tiempo exigido
+  
+Se construyó la matriz de valoraciones de la siguiente manera:
+
+* Como se busca maximizar la satisfacción, se enumeran las alternativas del 1 al 6, siendo 1 la que menor satisfacción genera y 6 la que mayor satisfacción genera.
+
+* Dado que se busca minimizar los costos de educación y manutención, se asigna 0 cuando no genera costos, -1 para su país de origen y -6 para el extranjero.
+
+* Como se quieren maximizar los ingresos, se asigna 0 cuando no se generan ingresos, 1 para su país de origen y 6 para el extranjero.
+
+* Como se quieren maximizar las oportunidades futuras tras la decisión, se enumeran las alternativas del 1 al 6, siendo 6 la que proporciona mejores oprtunidades.
+
+* Como se quiere minimizar el tiempo exigido, se enumeran las alternativas del -6 al -1, siendo -6 la que exige más tiempo y -1 menos tiempo.
+
+```{r}
+Tabla1 <- crea.tablaX(c(1,0,-1,1,1,1,-2,
+                        3,0,-6,6,4,-4,
+                        2,-1,-1,0,2,-1,
+                        4,-1,-1,1,5,-5,
+                        5,-6,-6,0,3,-3,
+                        6,-6,-6,6,6,-6),
+                    numalternativas = 6,
+                    numestados = 6)
+knitr::kable(Tabla1)
+```
+
+Ahora se aplican los criterios bajo incertidumbre vistos en clase
+
+```{r}
+criterio.Todos(Tabla1,favorable=TRUE)
+```
+
+El criterio pesimista recomienda al estudiante trabajar en su país origen o hacer una maestría en su país de origen y trabajar. El criterio optimista recomienda trabajar en el extranjero o hacer una maestría y trabajar en el extranjero. Los demás criterios recomiendan hacer una maestría en su país de origen y trabajar.
 
 # Ejercicio 2
 
