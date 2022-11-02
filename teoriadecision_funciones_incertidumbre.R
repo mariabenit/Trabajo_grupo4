@@ -94,7 +94,7 @@ criterio.Wald = function(tablaX,favorable=TRUE) {
 
 
 
-
+## Criterio optimista
 criterio.Optimista = function(tablaX,favorable=TRUE) {
 
   X = tablaX;
