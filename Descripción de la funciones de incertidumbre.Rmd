@@ -97,16 +97,20 @@ criterio.Optimista = function(tablaX,favorable=TRUE) {
 
 ## Criterio Laplace
 
+El criterio de Laplace está basado en el principio de razón de insuficiente. Como a priori no existe ninguna razón para suponer que un estado puede presentarse antes que los demás podemos considerar que todos los estados tienen la misma probabilidad de ocurrencia.
+
+Así que para un problema de decisión con _n_ posibles estados de la naturaleza asignamos _1/n_ a cada uno de estos estados. El criterio consiste en calcular la media de cada una de las filas de la matriz de valores numéricos y elegir la decisión que nos produzca mator media.
+
 ```{r}
 criterio.Laplace = function(tablaX,favorable=TRUE) {
 
   X = tablaX;
   if (favorable) {
-    AltL = apply(X,MARGIN=1,mean);
-    Laplace = max(AltL) # favorable
-    Alt_Laplace = which.max.general(AltL)
+    AltL = apply(X,MARGIN=1,mean); #aplicamos la media a todos
+    Laplace = max(AltL) # favorable, así que nos quedamos con el maximo
+    Alt_Laplace = which.max.general(AltL) #nos quedamos con el maximo de todos
     metodo = 'favorable';
-  } else {
+  } else { #para el caso desfavorable actuamos igual pero nos quedamos con los minimos.
     AltL = apply(X,MARGIN=1,mean);
     Laplace = min(AltL) # desfavorable
     Alt_Laplace = which.min.general(AltL)
@@ -119,11 +123,15 @@ criterio.Laplace = function(tablaX,favorable=TRUE) {
   resultados$ValorAlternativas = AltL;
   resultados$ValorOptimo = Laplace;
   resultados$AlternativaOptima = Alt_Laplace;
+  resultados$Recomendación = paste("Por lo tanto, la alternativa recomendada es la número", Alt_Laplace);
 
   return(resultados);
 
 }
 ```
 
+Mediante a función criterio.Laplace aplicamos este criterio a nuestro problema de decisión. Hemos añadido comentarios durante el código que explica lo que hace en cada momento.
+
+Le hemos añadido a la función un texto que nos indica cual es la alternativa óptima.
 
 ## Criterio PuntoIdeal
