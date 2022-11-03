@@ -68,7 +68,63 @@ El criterio pesimista recomienda al estudiante trabajar en su país origen o hac
 
 Estoy organizando un viaje a Italia y tengo tres posibles agencias de viajes con las que puedo organizar el viajes, de las cuales ofrecen dos paquetes de viajes a Italia cada una.
 
-# Ejercicio 3
+# Ejercicio 3 - Sebastián Florido
+
+Planteamos un problema de decisión para elegir que compañía telefónica nos interesa contratar durante el año que vamos a residir fuera de nuestra casa.
+Hemos recibido varias ofertas de distintas compañías, por lo general todas ellas han ofrecido tres tipos de contrato (el primero incluye línea móvil con datos ilimitados, el segundo línea móvil + red Wi-Fi y por último te incluye línea móvil + Wi-Fi + TV). Dichas ofertas son las siguientes:
+
+- Movistar: tiene un precio de alta fijo de 30€. Además si quieres una línea con móvil y datos ilimitados tienes que pagar 35€ al mes. Una línea móvil con datos más la red Wi-Fi en casa tiene un coste de 45€ mensules, y si le quieres añadir  TV los primeros dos meses no tiene un coste adicional porque nos lo incluye con el Wi-Fi pero a partir del tercer mes son 30€ extras.
+
+- Yoigo: No tiene precio de alta. La tarifa mensual por la línea móvil con datos son de 20€ durante los primeros 6 meses y a partir de ahí 30€ mensuales. La red Wi-fi tiene un coste de 40€ por la instalación más 30€ mensuales, además la TV tiene un precio fijo de 190€ al año.
+
+- Orange: Al darte de alta tienes que pagar 10€, la línea móvil con datos cuesta un precio de 40€ mensuales, si le añadimos la red Wi-Fi nos cuesta un precio de 20€ mensuales y la TV nos cuesta 35€ extras mensuales.
+
+- Vodafone: no tiene coste fijo. la línea móvil con datos ilimitados tiene un coste anual de 360€, para la red Wi-Fi hay que pagar 30€ por la instalación y 10€ por mes. El precio de la tarifa de la TV son 40€ mensuales. 
+
+Queremos saber qué compañía es la más rentable durante el primer año de contrato, ya que tenemos intención de firmar el contrato de 1 año.
+
+Planteamos nuestro problema de decisión:
+ - Alternativas:
+  1. Movistar.
+  2. Yoigo.
+  3. Orange.
+  4. Vodafone.
+  
+ - Estados de la naturaleza:
+  1. Tarifa móvil + datos ilimitados.
+  2. Tarifa móvil + datos ilimitados + Wi-Fi.
+  3. Tarifa móvil + datos ilimitados + Wi-Fi + TV.
+  
+ - Matriz de decisión:
+```{r}
+md11 = 30+35*12
+md12 = 30+45*12
+md13 = 30+45*12+30*10
+md21 = 20*6+30*6
+md22 = 20*6+30*6+40+30*12
+md23 = 20*6+30*6+40+30*12+ 190
+md31 = 10+40*12
+md32 = 10+40*12+20*12
+md33 = 10+40*12+20*12+35*12
+md41 = 360
+md42 = 360+30+10*12
+md43 = 360+30+10*12+40*12
+```
+ 
+Resolvemos el problema:
+```{r}
+tablaej3<-crea.tablaX(c(md11,md12,md13,
+                        md21,md22,md23,
+                        md31,md32,md33,
+                        md41,md42,md43), numalternativas = 4,numestados = 3)
+rownames(tablaej3)<-c("Movistar","Yoigo","Orange","Vodafone")
+tablaej3
+```
+```{r}
+res = criterio.Todos(tablaej3,alfa = 0.4,favorable = F)
+res
+```
+Como podemos ver en nuestra tavla la mejor opción es darse de alta con Vodafone ya que gana en tres criterios de 6.
 
 # Ejercicio 4
 
