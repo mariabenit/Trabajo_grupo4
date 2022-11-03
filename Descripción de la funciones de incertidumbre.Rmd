@@ -13,11 +13,13 @@ knitr::opts_chunk$set(echo = TRUE, eval = FALSE)
 ```
 
 # ¿Qué hacen las funciones de incertidumbre?
+
 En los siguientes apartados explicaremos un poco en que consiste cada criterio y  
 para las funciones cuales son los datos que debemos meter y para que sirven, además 
 de lo que muestra la salida.  
 
 ## Criterio de Wald o Pesimista
+
 ```{r}
 criterio.Wald = function(tablaX,favorable=TRUE) {
 
@@ -52,6 +54,7 @@ criterio.Wald = function(tablaX,favorable=TRUE) {
 ```
 
 ## Criterio optimista
+
 ```{r}
 criterio.Optimista = function(tablaX,favorable=TRUE) {
 
@@ -85,6 +88,38 @@ criterio.Optimista = function(tablaX,favorable=TRUE) {
 ```
 
 ## Criterio Hurwicz
+
 ## Criterio Savage
+
 ## Criterio Laplace
+
+```{r}
+criterio.Laplace = function(tablaX,favorable=TRUE) {
+
+  X = tablaX;
+  if (favorable) {
+    AltL = apply(X,MARGIN=1,mean);
+    Laplace = max(AltL) # favorable
+    Alt_Laplace = which.max.general(AltL)
+    metodo = 'favorable';
+  } else {
+    AltL = apply(X,MARGIN=1,mean);
+    Laplace = min(AltL) # desfavorable
+    Alt_Laplace = which.min.general(AltL)
+    metodo = 'desfavorable';
+  }
+  resultados = list();
+  resultados$criterio = 'Laplace';
+  resultados$metodo = metodo;
+  resultados$tablaX = tablaX;
+  resultados$ValorAlternativas = AltL;
+  resultados$ValorOptimo = Laplace;
+  resultados$AlternativaOptima = Alt_Laplace;
+
+  return(resultados);
+
+}
+```
+
+
 ## Criterio PuntoIdeal
