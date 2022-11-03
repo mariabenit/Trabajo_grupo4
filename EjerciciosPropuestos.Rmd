@@ -65,6 +65,8 @@ criterio.Todos(Tabla1,favorable=TRUE)
 El criterio pesimista recomienda al estudiante trabajar en su país origen o hacer una maestría en su país de origen y trabajar. El criterio optimista recomienda trabajar en el extranjero o hacer una maestría y trabajar en el extranjero. Los demás criterios recomiendan hacer una maestría en su país de origen y trabajar.
 
 # Ejercicio 2
+Estoy organizando un viaje a Italia y tengo tres posibles agencias de viajes con 
+las que puedo organizar el viajes
 
 # Ejercicio 3
 
