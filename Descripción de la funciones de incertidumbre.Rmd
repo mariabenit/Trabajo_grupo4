@@ -20,6 +20,10 @@ de lo que muestra la salida.
 
 ## Criterio de Wald o Pesimista
 
+Este criterio para cada alternativa supone que va a pasar lo peor y elige la alternativa que dé mejor valor, asegurando que, en el peor de los casos se obtenga lo mejor posible. Corresponde a un pensmiento pesismista.
+Se denomina minimax en el caso de que los pagos sean costes
+
+
 ```{r}
 criterio.Wald = function(tablaX,favorable=TRUE) {
 
