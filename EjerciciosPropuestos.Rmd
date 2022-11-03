@@ -66,7 +66,10 @@ El criterio pesimista recomienda al estudiante trabajar en su país origen o hac
 
 # Ejercicio 2
 Estoy organizando un viaje a Italia y tengo tres posibles agencias de viajes con 
-las que puedo organizar el viajes
+las que puedo organizar el viajes, de las cuales ofrecen dos paquetes de viajes 
+a Italia cada una.
+
+
 
 # Ejercicio 3
 
