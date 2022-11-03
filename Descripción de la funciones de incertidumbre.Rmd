@@ -131,3 +131,70 @@ Mediante a función criterio.Laplace aplicamos este criterio a nuestro problema 
 Le hemos añadido a la función un texto que nos indica cual es la alternativa óptima.
 
 ## Criterio PuntoIdeal
+
+Es un criterio de cierta forma geométrico, pues como su nombre lo indica, lo que hace es definir un punto ideal (en $\mathbb{R}^{c}$), siendo $c$ el número de criterios) que representa la alternativa ideal considerando el valor máximo de cada criterio observando todas las alternativas (en el caso de que sea favorable). Luego, se define la valoración de dicha alternativa como la distancia del punto en $\mathbb{R}^{c}$, cuyos elementos son las valoraciones para cada criterio de dicha alternativa y el punto ideal definido. Esta distancia puede definirse de varias formas, la que usa esta función es la distancia euclideana.
+
+```{r}
+criterio.PuntoIdeal = function(tablaX,favorable=TRUE) {
+
+  # Recibe la tabla de alternativas y valoraciones para cada crietrio
+  X = tablaX;
+  
+  # Si la matriz es de beneficios se busca el maximo
+  if (favorable) {
+    # Se define el vector MejoresPT como el vector que resulta 
+    # de aplicar la funcion maximo a cada columna de la matriz (cada criterio),
+    # por lo que resulta de longitud el numero de alternativas
+    MejoresPT = apply(X,MARGIN=2,max); # favorable
+    
+    # Se define la variable AltPT como un vector de ceros
+    # con longitud el numero de filas de la tabla (alternativas)
+    AltPT = rep(0,dim(X)[1])
+    
+    # Se redefine cada elemento del vector AltPT como la distancia euclideana
+    # entre la alternativa y el punto ideal
+    # Es decir, que resulta un vector con la valoración para cada alternativa
+    for (i in 1:dim(X)[1]) {
+      AltPT[i] = distanciaEuclidea(MejoresPT,X[i,])
+    }
+    # Se le asigna el nombre de la alternativa a la columna de AltPT correspondiente
+    names(AltPT) = rownames(tablaX)
+    # La (o las) alternativa optimas sera aquella que tenga la menor distancia
+    # por eso se define la variable PuntoIdeal
+    PuntoIdeal = min(AltPT);
+    # Con la funcion which.min.general definida previamente se almacena en la variable
+    # Alt_PuntoIdeal el vector con la (o las) posicion de la alternativa almacenada en PuntoIdeal
+    Alt_PuntoIdeal = which.min.general(AltPT);
+    metodo = 'favorable';
+  # Si no es de beneficios, sera de costos, es decir, que el punto ideal no sera el maximo
+  # sino el minimo, por lo que se repite el proceso pero ahora tomando en minimo
+  } else {
+    MejoresPT = apply(X,MARGIN=2,min); # desfavorable
+    AltPT = rep(0,dim(X)[1])
+    names(AltPT) = rownames(tablaX)
+    for (i in 1:dim(X)[1]) {
+      AltPT[i] = distanciaEuclidea(MejoresPT,X[i,])
+    }
+    ##AltPT
+    PuntoIdeal = min(AltPT);
+    Alt_PuntoIdeal = which.min.general(AltPT);
+    metodo = 'desfavorable';
+  }
+  # Se construye una lista que contiene distintas caracteristicas
+  # del metodo empleado y el resultado para que devuelva al usar la funcion
+  resultados = list();
+  resultados$criterio = 'Punto Ideal';
+  resultados$metodo = metodo;
+  resultados$tablaX = tablaX;
+  resultados$Mejores = MejoresPT;
+  resultados$ValorAlternativas = AltPT;
+  resultados$ValorOptimo = PuntoIdeal;
+  resultados$AlternativaOptima = Alt_PuntoIdeal;
+  resultados$Recomendación = paste("Por lo tanto, 
+                                   la alternativa recomendada es la número", Alt_PuntoIdeal);
+
+
+  return(resultados);
+
+}
+```
