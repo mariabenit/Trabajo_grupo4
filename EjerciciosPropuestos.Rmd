@@ -126,6 +126,73 @@ res
 ```
 Como podemos ver en nuestra tavla la mejor opción es darse de alta con Vodafone ya que gana en tres criterios de 6.
 
-# Ejercicio 4
+# Ejercicio 4 - Lucía Martín Periáñez
+
+Raúl está estudiando la posibilidad de dar de alta a su perro en una clínica 
+veterinaria. Al ser un cachorro tiene que ponerse durante dos años
+una vacuna cada mes. Y además quiere castrarlo pero no sabe si lo hará en el 
+primer año o segundo año que esté dado de alta. Por lo que su objetivo es gastarse
+el menor dinero posible.
+Tras visitar las tres que se encuentran en su ciudad, estas son las conclusiones
+que saca:
+  
+- En la clínica veterinaria "Canitas" debe pagar una cuota mensual de 25 euros,
+  pero no cubre todas las consultas de vacunas y las dosis de vacunas hasta que 
+  no hayan pasado 12 meses.
+  Hasta entonces, cada consulta por vacuna valdrá la mitad y cada dosis de la 
+  vacuna valdrá 1/3. 
+  Si la castración se hace en el primer año dado de alta, se le cobrará
+  el precio de una consulta. Si se castra después, le costará la mitad.
+  
+- En la clínica veterinaria "Peludos" debe pagar una cuota mensual de 10 euros y 
+  a parte debe pagar 5 euros por cada consulta de vacuna. Además, tendrá que pagar
+  el precio de la vacuna que se le pone al cachorro. La consulta por castración
+  en el primer año valdrá la mitad de precio y en el segundo año será gratis,
+  pero aumentará a 15 euros la cuota mensual.
+  
+- En la clínica veterinaria "Miau" debe pagar una cuota mensual de 50 euros, lo
+  que cubrirá todos los gastos excepto la castración. En el primer año de alta,
+  la castración costará su precio original. Y en el segundo año de alta, la 
+  castración costará 1/4 de su precio original.
+  
+Teniendo en cuenta que los precios son los siguientes:
+- Consulta para poner la vacuna: 18 euros.
+- Consulta por castración: 30 euros.
+- Una dosis de vacuna: 9 euros.
+
+¿Cuando sería mejor que lo castrara para que el coste sea mínimo?
+
+Planteamos nuestro problema de decisión:
+  
+- Alternativas:
+  1. Canitas.
+  2. Peludos.
+  3. Miau.
+  
+- Estados de la naturaleza:
+  1. Antes de un año.
+  2. Después de un año.
+
+- Matriz de decisión:
+```{r}
+m11 <- 25*12 + (18/2)*12 + (9/3)*12 + 30
+m12 <- 25*12 + 30/2
+m21 <- 10*12 + 5*12 + 9*12 + 30/2
+m22 <- 15*12 + 5*12 + 9*12
+m31 <- 50*12 + 30
+m32 <- 50*12 + 30/4 
+```
+
+Resolvemos el problema:
+```{r}
+tb04 <- crea.tablaX(c(m11,m12,m21,
+                      m22,m31,m32),
+                    numalternativas = 3,
+                    numestados = 2)
+res <- criterio.Todos(tb04,alfa=0.5,favorable=FALSE)
+res
+```
+La mejor alternativa es la segunda, es decir, darle de alta en la clínica "Peludos"
+ya que es la preferida en 6 de los 6 criterios que se implementaron.
 
 # Ejercicio 5
