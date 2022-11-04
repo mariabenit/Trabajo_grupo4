@@ -90,7 +90,67 @@ criterio.Optimista = function(tablaX,favorable=TRUE) {
 ## Criterio Hurwicz
 
 ## Criterio Savage
-esto es una prueba
+
+Este criterio toma en consideración el coste de oportunidad por no preveer 
+correctamente el estado de la naturaleza. Estos costes de oportunidad se evalúan 
+para cada alternativa y cada estado, haciendo la diferencia entre lo mejor de
+ese estado y lo que proporciona esa alternativa para ese estado, construyendo la 
+llamada matriz de penalizaciones o costes de oportunidad. A esta matriz se le
+aplica el criterio de minimizar el máximo arrepentimiento.
+
+criterio.Savage = function(tablaX,favorable=TRUE) {
+# hemos definido que por defecto tengamos favorable=TRUE, que indica que estamos trabajando con la matriz de beneficios
+  X = tablaX; 
+  if (favorable) { # si trabajamos con la matriz de beneficios se busca el máximo
+    Mejores = apply(X,MARGIN=2,max); # a la tabla que vamos a estudiar le hace el máximo por columnas 
+    temp1 = rep(Mejores,dim(X)[1]) # repetir los valores anteriores tantas veces como filas tenga la tabla 
+    Mmejores = matrix(temp1,nrow=dim(X)[1],ncol=dim(X)[2],byrow=TRUE); # hacer una matriz con los valores anteriores que tenga el mismo número de filas y de columnas que tiene la tabla
+    Pesos = abs(Mmejores-X); #calculamos los pesos hallando el valor absoluto de la diferencia entre la matriz anterior y la tabla  
+    ## Ahora criterio Wald Minimax Pesimista (desfavorable)
+    AltWS= apply(Pesos,MARGIN=1,max); # a los pesos le calculamos el máximo por filas
+    Savage = min(AltWS); # de los valores anteriores nos quedamos con el valor mínimo
+    Alt_Savage = which.min.general(AltWS); # posición en la que se encuentra el valor mínimo
+    metodo = 'favorable'; # si favorable=TRUE, el método usado será "favorable"
+  } else { # si trabajamos con la matriz de costos se busca el mínimo
+    Mejores = apply(X,MARGIN=2,min); # a la tabla le hace el mínimo por columnas
+    temp1 = rep(Mejores,dim(X)[1]) # repetir los valores anteriores tantas veces como filas tenga la tabla
+    Mmejores = matrix(temp1,nrow=dim(X)[1],ncol=dim(X)[2],byrow=TRUE); # hacer una matriz con los valores anteriores que tenga el mismo número de filas y de columnas que tiene la tabla
+    Pesos = abs(Mmejores-X); #calculamos los pesos hallando el valor absoluto de la diferencia entre la matriz anterior la tabla y 
+    ## Ahora criterio Wald Minimax (desfavorable)
+    AltWS= apply(Pesos,MARGIN=1,max); # a los pesos le calculamos el máximo por filas
+    Savage = min(AltWS); # de los valores anteriores nos quedamos con el valor mínimo
+    Alt_Savage = which.min.general(AltWS); # posición en la que se encuentra el valor mínimo
+    metodo = 'desfavorable'; # si favorable=FALSE, el método usado será "desfavorable"
+  }
+  
+  # los comandos siguientes son los resultados que queremos que nos muestre al compilar esta función
+  resultados = list();
+  resultados$criterio = 'Savage';
+  resultados$metodo = metodo;
+  resultados$tablaX = tablaX;
+  resultados$Mejores = Mejores;
+  resultados$Pesos = Pesos;
+  resultados$ValorAlternativas = AltWS;
+  resultados$ValorOptimo = Savage;
+  resultados$AlternativaOptima = Alt_Savage;
+  
+  return(resultados);
+  
+  
+}
+
+
+Savage argumenta que después de tomar una decisión y de conocer el resultado, el 
+decisor puede arrepentirse de haber seleccionado una alternativa concreta. 
+Y por lo tanto, debe tratar de que ese arrepentimiento se reduzca al mínimo, es
+decir, la alternativa seleccionada será aquella que minimice el arrepentimiento. 
+
+Todo esto lo consguimos gracias a esta función y al compilarla, obtendremos los
+siguientes resultados: el nombre del criterio usado (que en este caso será 
+Savage), el método usado, la tabla con la que queremos trabajar, el máximo o el 
+mínimo por columnas dependiendo del método y al cual hemos denominado "mejores", 
+los pesos, el valor de las alternativas, el valor óptimo y la posición de la
+alternativa óptima.
 
 ## Criterio Laplace
 
