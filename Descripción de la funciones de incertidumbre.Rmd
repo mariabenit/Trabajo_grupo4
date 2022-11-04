@@ -90,6 +90,7 @@ criterio.Optimista = function(tablaX,favorable=TRUE) {
 ## Criterio Hurwicz
 
 ## Criterio Savage
+esto es una prueba
 
 ## Criterio Laplace
 
