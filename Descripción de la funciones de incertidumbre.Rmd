@@ -90,7 +90,9 @@ criterio.Optimista = function(tablaX,favorable=TRUE) {
 
 ## Criterio Hurwicz
 
-En este criterio se combinan las aptitudes pesimistas y optimistas, valorando  cada alternativa con una ponderación entre lo mejor y lo peor posible, que denominamos alfa(índice de optimismo). 
+En este criterio se combinan las aptitudes pesimistas y optimistas, valorando 
+cada alternativa con una ponderación entre lo mejor y lo peor posible, que
+denominamos alfa(índice de optimismo). 
 
 ```{r}
 criterio.Hurwicz.General = function(tablaX,alfa=0.3,favorable=TRUE) {
