@@ -64,11 +64,28 @@ criterio.Todos(Tabla1,favorable=TRUE)
 
 El criterio pesimista recomienda al estudiante trabajar en su país origen o hacer una maestría en su país de origen y trabajar. El criterio optimista recomienda trabajar en el extranjero o hacer una maestría y trabajar en el extranjero. Los demás criterios recomiendan hacer una maestría en su país de origen y trabajar.
 
-# Ejercicio 2 -María Benítez Moreno
+# Ejercicio 2 - María Benítez Moreno
 
-Estoy organizando un viaje a Italia y tengo tres posibles agencias de viajes con las que puedo organizar el viaje, de las cuales ofrecen dos paquetes promocinales por black friday de viajes a Italia cada una.
+Estoy organizando un viaje a Italia del 7 al 14 de noviembre y tengo dos posibles agencias de viajes con las que puedo organizar el viaje, de las cuales ofrecen dos paquetes promocinales por black friday de viajes a Italia cada una.
 
-- Disfruta, ofrece 
+- Disfruta, ofrece un paquete de lujo y otro económico. En el paquete de lujo se dispune de un asiento en primera clase para el vuelo de ida y vuelta(De Sevilla a Roma), además de un hotel(con desayuno incluido) de 4 estrellas cerca de la Basilica de San Pedro en Roma, por un precio de 1800€, sin desayuno sería 1700€, si además quieres excursiones con visitas guiadas por varios lugares emblematicos de italia serían de 500€. En el paquete económico se oferta un asinto en clase turista para el viaje de ida y de vuelta , además del hotel en Roma con desayuno incluido seria de 1.040€, y sin desayuno seria de 1000€.
+
+- Vuelin. ofrece un paquete de lujo y otro económico.LUJO DESAYUNO 1900€ sin  1800€ , 400€ excrusion económico 1.100€ desay 954€ sin
+
+En todos los paquetes de ambas agencias de viajes incluye el traslado al hotel
+Plantemaos el problema con:
+
+    - Alternativas:
+      1. Disfruta Lujo
+      2. Disfruta 
+      3. Vuelin Lujo
+      4. Vuelin 
+      
+    - Esdados de la naturaleza:
+        1. Vuelos + Hotel(con desayuno)
+        2. Vuelos + Hotel(sin desayuno)
+        2. Vuelos + Hotel(con desayuno) + excursion
+        4. Vuelos + Hotel(sin desayuno) + excursion
 
 # Ejercicio 3 - Sebastián Florido
 
@@ -126,7 +143,7 @@ tablaej3
 res = criterio.Todos(tablaej3,alfa = 0.4,favorable = F)
 res
 ```
-Como podemos ver en nuestra tavla la mejor opción es darse de alta con Vodafone ya que gana en tres criterios de 6.
+Como podemos ver en nuestra tabla la mejor opción es darse de alta con Vodafone ya que gana en tres criterios de 6.
 
 # Ejercicio 4 - Lucía Martín Periáñez
 
