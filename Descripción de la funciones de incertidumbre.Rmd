@@ -10,6 +10,7 @@ output:
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, eval = FALSE)
+
 ```
 
 # ¿Qué hacen las funciones de incertidumbre?
@@ -89,14 +90,21 @@ criterio.Optimista = function(tablaX,favorable=TRUE) {
 
 ## Criterio Hurwicz
 
+En este criterio se combinan las aptitudes pesimistas y optimistas, valorando  cada alternativa con una ponderación entre lo mejor y lo peor posible, que denominamos alfa(índice de optimismo). 
+
 ```{r}
 criterio.Hurwicz.General = function(tablaX,alfa=0.3,favorable=TRUE) {
   # si alfa es un escalar entre 0 y 1 lo obtiene para ese único valor
   # si alfa es igual a un número mayor que 1, lo usa para obtener cálculos para dividir el rango 0-1
+  #En algún punto de alfa(dependiendo de nuestro problema), ocurrira que la 
+  #solución del criterio optimista es igual de buena que la pesimista para este 
+  #criterio.
+  #Indicamos favorable igual a TRUE si estamos trabajando con la matriz de 
+  #beneficios
   X = tablaX;
   if (favorable) {
-    Altmin = apply(X,MARGIN=1,min);
-    Altmax= apply(X,MARGIN=1,max);
+    Altmin = apply(X,MARGIN=1,min);#Obtemos el mínimo por filas 
+    Altmax= apply(X,MARGIN=1,max);#Obtenemos el maximo por columnas
     if (alfa<=1) {
       valfa = c(alfa);
     } else {
@@ -107,6 +115,7 @@ criterio.Hurwicz.General = function(tablaX,alfa=0.3,favorable=TRUE) {
     for (i in 1:length(valfa)) {
       alfab = valfa[i];
       vAltH = alfab * Altmax + (1-alfab) * Altmin;
+      #Con ValtH, tenemos la función de Hurwicz
       vHurwicz[i] = max(vAltH);
       Alt_vHurwicz[i] = which.max(vAltH);
       Alt_vHurwicz_g = which.max.general(vAltH);
