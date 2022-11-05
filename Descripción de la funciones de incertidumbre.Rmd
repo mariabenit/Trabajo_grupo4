@@ -89,6 +89,72 @@ criterio.Optimista = function(tablaX,favorable=TRUE) {
 
 ## Criterio Hurwicz
 
+```{r}
+criterio.Hurwicz.General = function(tablaX,alfa=0.3,favorable=TRUE) {
+  # si alfa es un escalar entre 0 y 1 lo obtiene para ese único valor
+  # si alfa es igual a un número mayor que 1, lo usa para obtener cálculos para dividir el rango 0-1
+  X = tablaX;
+  if (favorable) {
+    Altmin = apply(X,MARGIN=1,min);
+    Altmax= apply(X,MARGIN=1,max);
+    if (alfa<=1) {
+      valfa = c(alfa);
+    } else {
+      valfa = seq(from=0,to=1,by=(1/alfa)); ## alfa: 100, 200,
+    }
+    vHurwicz = rep(0,length(valfa))
+    Alt_vHurwicz = rep(0,length(valfa))
+    for (i in 1:length(valfa)) {
+      alfab = valfa[i];
+      vAltH = alfab * Altmax + (1-alfab) * Altmin;
+      vHurwicz[i] = max(vAltH);
+      Alt_vHurwicz[i] = which.max(vAltH);
+      Alt_vHurwicz_g = which.max.general(vAltH);
+    }
+    metodo = 'favorable';
+  } else {
+    Altmin = apply(X,MARGIN=1,min);
+    Altmax= apply(X,MARGIN=1,max);
+    if (alfa<=1) {
+      valfa = c(alfa);
+    } else {
+      valfa = seq(from=0,to=1,by=(1/alfa)); ## alfa: 100, 200,
+    }
+    vHurwicz = rep(0,length(valfa))
+    Alt_vHurwicz = rep(0,length(valfa))
+    for (i in 1:length(valfa)) {
+      alfab = valfa[i];
+      vAltH = (1-alfab) * Altmax + alfab * Altmin;
+      vHurwicz[i] = min(vAltH);
+      Alt_vHurwicz[i] = which.min(vAltH);
+      Alt_vHurwicz_g = which.min.general(vAltH);
+
+    }
+    metodo = 'desfavorable';
+  }
+  resultados = list();
+  resultados$criterio = 'Hurwicz';
+  resultados$alfa = alfa;
+  resultados$metodo = metodo;
+  resultados$tablaX = tablaX;
+  resultados$ValorAlternativas = vAltH;
+  resultados$ValorOptimo = vHurwicz;
+  if (length(valfa)==1) {
+    resultados$AlternativaOptima = Alt_vHurwicz_g;
+  } else {
+    resultados$AlternativaOptima = Alt_vHurwicz;
+  }
+
+  return(resultados);
+
+
+
+}
+
+
+```
+
+
 ## Criterio Savage
 
 Este criterio toma en consideración el coste de oportunidad por no preveer 
