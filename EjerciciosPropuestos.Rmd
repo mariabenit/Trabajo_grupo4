@@ -249,4 +249,40 @@ res
 La mejor alternativa es la segunda, es decir, darle de alta en la clínica "Peludos"
 ya que es la preferida en 6 de los 6 criterios que se implementaron.
 
-# Ejercicio 5
+# Ejercicio 5 - Claudia Solís Aguilar
+
+Claudia quiere apuntarse a una academia de inglés y está barajando distintas opciones para ver cuál le sale mejor de precio. Su idea es empezar en enero y hacer un curso intensivo de 6 meses para tener el título antes de verano. Estas son las tres academias que ha encontrado con la opción de curso intensivo:
+
+  - Academia 1. Matrícula gratuita. Con un precio de 110€ al mes y tiene la opción de incluir el libro de la academia por 50€ más o usar sus propios apuntes que coja en clase. Además, incluye un simulacro de examen antes de la prueba oficial.
+  
+  - Academia 2. La matrícula tiene un coste de 70€ y el mes sale a 75€. Obligan a usar libro, el cuál se tiene que pagar en el momento de matriculación y cuesta 45€. Si quiere hacer exámenes de prueba, tendrá que pagar 30€ también en el momento en el que se matricule.
+  
+  - Academia 3. La matrícula tiene un coste de 90€ y el mes sale a 80€. Ahora hay un oferta en la que por 5€ más al mes se tiene el libro incluído y 2 exámenes de prueba.
+  
+  Estados de la naturaleza:
+  
+  - Matriculación y mensualidad
+  - Matriculación y mensualidad + libro + exámenes de prueba
+  
+Resolución del problema (minimizando los costos):
+
+```{r}
+
+m11 = 110 * 6
+m12 = (110 * 6) + 50
+m21 = 70 + (75 * 6) + 45
+m22 = 70 + (75 * 6) + 45 + 30
+m31 = 90 + (80 * 6)
+m32 = 90 + (85*6)
+
+tabla5 = crea.tablaX(c(m11, m12,
+                       m21, m22,
+                       m31, m32), 3, 2)
+
+row.names(tabla5) = c("Academia 1", "Academia 2", "Academia 3")
+res5 = criterio.Todos(tabla5, favorable = F)
+res5
+
+```
+
+Según todos los criterios, Claudia se debería apuntar a la Academia 2.
