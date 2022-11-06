@@ -21,27 +21,34 @@ de lo que muestra la salida.
 
 ## Criterio de Wald o Pesimista
 
-Este criterio para cada alternativa supone que va a pasar lo peor y elige la alternativa que dé mejor valor, asegurando que, en el peor de los casos se obtenga lo mejor posible. Corresponde a un pensmiento pesismista.
-Se denomina minimax en el caso de que los pagos sean costes
-
+Este criterio supone que para cada alternativa va a pasar lo peor y elige aquella que dé mejor valor asegurando que, en el peor de los casos, se obtenga lo mejor posible.
+Corresponde con un pensamiento pesimista.
+Si los pagos son costes, se denomina minimax ya que supone elegir el mínimo de los máximos, y si son ganancias, maximin, porque se elige el máximo de los mínimos.
 
 ```{r}
-criterio.Wald = function(tablaX,favorable=TRUE) {
-
+criterio.Wald = function(tablaX,favorable=TRUE) { ## primero aplicamos el criterio
+                                                  ## suponiendo que los pagos son ganancias,
+                                                  ## es decir, buscando el mínimo de los
+                                                  ## máximos (maximin)
   X = tablaX;
   if (favorable) {
-    AltW = apply(X,MARGIN=1,min);
+    AltW = apply(X,MARGIN=1,min);  #se hace el mínimo para cada fila
     ##AltW
-    Wald = max(AltW);
+    Wald = max(AltW);         #fila con el valor máximo (de los mínimos)
     Alt_Wald = which.max.general(AltW);
-    metodo = 'favorable';
-  } else {
-    AltW = apply(X,MARGIN=1,max);
+    metodo = 'favorable';   #'favorable' porque estamos en el caso de que los pagos son                                     ganancias
+    
+  } else {            ## ahora suponemos que los pagos son costes, buscamos
+                      ## el máximo de los mínimos (minimax)
+    
+    AltW = apply(X,MARGIN=1,max);    #máximo para cada fila
     ##AltW
-    Wald = min(AltW);
+    Wald = min(AltW);    #fila con el valor mínimo (de los máximos)
     Alt_Wald = which.min.general(AltW);
-    metodo = 'desfavorable';
+    metodo = 'desfavorable';    # 'desfavorable' porque estamos en el caso de que los pagos son                                   costes
   }
+  
+    # obtenemos la tabla con los resultados
   resultados = list();
   resultados$criterio = 'Wald';
   resultados$metodo = metodo;
@@ -58,25 +65,33 @@ criterio.Wald = function(tablaX,favorable=TRUE) {
 }
 ```
 
+Con el criterio de Wald si estamos en el caso favorable, obtenemos como resultado el valor máximo de los mínimos. En el caso contrario el resultado es el mínimo de los máximos.
+
+
 ## Criterio optimista
+
+Este criterio es opuesto al anterior. Para cada alternativa supone que va a pasar lo mejor y elige la que dé mejor valor. 
+También es denominado maximax.
 
 ```{r}
 criterio.Optimista = function(tablaX,favorable=TRUE) {
 
   X = tablaX;
-  if (favorable) {
-    AltM = apply(X,MARGIN=1,max);
+  if (favorable) {   ## en el caso favorable buscamos el máximo de los máximos
+    AltM = apply(X,MARGIN=1,max);   # máximo para cada fila
     ##AltM
-    Maximax = max(AltM);
+    Maximax = max(AltM);      #fila con valor máximo (de los máximos)
     Alt_Maximax = which.max.general(AltM);
     metodo = 'favorable';
-  } else {
-    AltM = apply(X,MARGIN=1,min);
+  } else {     ## ahora en el caso desfavorable buscamos el mínimo de los mínimos
+    AltM = apply(X,MARGIN=1,min);   #mínimo para cada fila 
     ##AltM
-    Maximax = min(AltM);
+    Maximax = min(AltM);     #fila con el valos mínimo (de los mínimos)
     Alt_Maximax = which.min.general(AltM);
     metodo = 'desfavorable';
   }
+  
+     # recopilamos los resultados en la tabla
   resultados = list();
   resultados$criterio = 'Optimista';
   resultados$metodo = metodo;
@@ -91,6 +106,8 @@ criterio.Optimista = function(tablaX,favorable=TRUE) {
 
 }
 ```
+
+El criterio optimista por tanto, devuelve el valor máximo de los máximos en el caso favorable y el mínimo de los mínimos si estamos en el caso desfavorable.
 
 ## Criterio Hurwicz
 
