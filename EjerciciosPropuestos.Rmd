@@ -71,8 +71,10 @@ Estoy organizando un viaje a Italia del 7 al 14 de noviembre y tengo dos posible
 - Disfruta, ofrece un paquete de lujo y otro económico. En el paquete de lujo se dispone de un asiento en primera clase para el vuelo de ida y vuelta (De Sevilla a Roma), además de un hotel (con desayuno incluido) de 4 estrellas cerca de la Basílica de San Pedro en Roma, por un precio de 1800€, sin desayuno sería 1700€, si además quieres excursiones con visitas guiadas por varios lugares emblemáticos de Italia serían de 500€. En el paquete económico se oferta un asiento en clase turista para el viaje de ida y de vuelta, además del hotel en Roma con desayuno incluido sería de 1.040€, y sin desayuno sería de 1000€.
 
 - Vuelin. Ofrece un paquete de lujo y otro económico. El paqute de lujo ofrece 
-viajes de ida y vuelta en primera clase (de Sevilla a Roma), y hotel con desayuno incluido por 1900€, sin desayuno por 1800€,
-LUJO DESAYUNO 1900€ sin  1800€ , 400€ excursión económico 1.100€ desay 954€ sin
+viajes de ida y vuelta en primera clase (de Sevilla a Roma), y hotel con desayuno incluido por 1900€, sin desayuno por 1800€,el paquete económico ofrece 
+viaje de ida y vuelta en clase turista, y el hotel por 1.100€ con desayuno
+incluido, sin el desayuno serían de 954€, y el coste de las excursiones si 
+quisieran incluirlo serían de 400€.
 
 En todos los paquetes de ambas agencias de viajes incluye el traslado al hotel
 desde el aeropuerto.

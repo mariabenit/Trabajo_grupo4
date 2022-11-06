@@ -146,7 +146,8 @@ criterio.Hurwicz.General = function(tablaX,alfa=0.3,favorable=TRUE) {
       Alt_vHurwicz_g = which.max.general(vAltH);
     }
     metodo = 'favorable';
-  } else {#   Hacemos algo similar pero ahora tenid
+  } else {#   Hacemos algo similar pero ahora  teniendo en cuenta que trabajamos
+    #con la matriz de costes, es decir el caso desfavorable
     Altmin = apply(X,MARGIN=1,min);
     Altmax= apply(X,MARGIN=1,max);
     if (alfa<=1) {
