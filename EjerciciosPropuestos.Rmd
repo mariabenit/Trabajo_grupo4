@@ -70,22 +70,57 @@ Estoy organizando un viaje a Italia del 7 al 14 de noviembre y tengo dos posible
 
 - Disfruta, ofrece un paquete de lujo y otro económico. En el paquete de lujo se dispune de un asiento en primera clase para el vuelo de ida y vuelta(De Sevilla a Roma), además de un hotel(con desayuno incluido) de 4 estrellas cerca de la Basilica de San Pedro en Roma, por un precio de 1800€, sin desayuno sería 1700€, si además quieres excursiones con visitas guiadas por varios lugares emblematicos de italia serían de 500€. En el paquete económico se oferta un asinto en clase turista para el viaje de ida y de vuelta , además del hotel en Roma con desayuno incluido seria de 1.040€, y sin desayuno seria de 1000€.
 
-- Vuelin. ofrece un paquete de lujo y otro económico.LUJO DESAYUNO 1900€ sin  1800€ , 400€ excrusion económico 1.100€ desay 954€ sin
+- Vuelin. ofrece un paquete de lujo y otro económico.El paqute de lujo ofrece 
+viajes de ida y vuelta en primera clase(De Sevilla a Roma),y hotel con desayuno incluido por 1900€, sin desayuno por 1800€,
+LUJO DESAYUNO 1900€ sin  1800€ , 400€ excrusion económico 1.100€ desay 954€ sin
 
 En todos los paquetes de ambas agencias de viajes incluye el traslado al hotel
+desde el aeropuerto.
 Plantemaos el problema con:
 
     - Alternativas:
       1. Disfruta Lujo
-      2. Disfruta 
+      2. Disfruta Econónomico
       3. Vuelin Lujo
-      4. Vuelin 
+      4. Vuelin Económico
       
     - Esdados de la naturaleza:
         1. Vuelos + Hotel(con desayuno)
         2. Vuelos + Hotel(sin desayuno)
         2. Vuelos + Hotel(con desayuno) + excursion
         4. Vuelos + Hotel(sin desayuno) + excursion
+
+El objetivo será minimizar los costes      
+```{r}
+#Definimos la tabla
+m11<-1800
+m12<-1700
+m13<-1800+500
+m14<-1700+500
+m21<-1040
+m22<-1000
+m23<-1040+500
+m24<-1000+500
+m31<-1900
+m32<-1800
+m33<-1900+400
+m34<-1800+400
+m41<-1100
+m42<-954
+m43<-1100+400
+m44<-954+400
+pb2<-crea.tablaX(c(m11,m12,m13,m14,
+                 m21,m22,m23,m24,
+                 m31,m32,m33,m34,
+                 m41,m42,m43,m44),numalternativas = 4,numestados = 4)
+rownames(pb2)<-c("Disfruta Lujo","Disfruta Econónomico","Vuelin Lujo",
+                 "Vuelin Económico")
+criterio.Todos(pb2,favorable = F)
+
+knitr::kable(criterio.Todos(pb2,favorable = F)$Tabla)
+```
+La mejor opción es Vuelin Económico, tanto si queremos la opción con o sin 
+excursión.
 
 # Ejercicio 3 - Sebastián Florido
 
