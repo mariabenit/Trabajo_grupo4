@@ -104,10 +104,11 @@ criterio.Hurwicz.General = function(tablaX,alfa=0.3,favorable=TRUE) {
   #Indicamos favorable igual a TRUE si estamos trabajando con la matriz de 
   #beneficios
   X = tablaX;
-  if (favorable) {
+  if (favorable) {#En el caso de que estemos trabajando con la matriz de 
+    #beneficios, que indicamos si hemos puesto favorable =T
     Altmin = apply(X,MARGIN=1,min);#Obtemos el mínimo por filas 
     Altmax= apply(X,MARGIN=1,max);#Obtenemos el maximo por columnas
-    if (alfa<=1) {
+    if (alfa<=1) {#Si estamos trabajando con un alfa menor a uno
       valfa = c(alfa);
     } else {
       valfa = seq(from=0,to=1,by=(1/alfa)); ## alfa: 100, 200,
@@ -117,13 +118,14 @@ criterio.Hurwicz.General = function(tablaX,alfa=0.3,favorable=TRUE) {
     for (i in 1:length(valfa)) {
       alfab = valfa[i];
       vAltH = alfab * Altmax + (1-alfab) * Altmin;
-      #Con ValtH, tenemos la función de Hurwicz
+      #Con ValtH, tenemos la función de Hurwicz, alfa le da peso al criterio 
+      #optimista
       vHurwicz[i] = max(vAltH);
       Alt_vHurwicz[i] = which.max(vAltH);
       Alt_vHurwicz_g = which.max.general(vAltH);
     }
     metodo = 'favorable';
-  } else {
+  } else {#Hacemos algo similar pero ahora tenid
     Altmin = apply(X,MARGIN=1,min);
     Altmax= apply(X,MARGIN=1,max);
     if (alfa<=1) {
@@ -143,6 +145,7 @@ criterio.Hurwicz.General = function(tablaX,alfa=0.3,favorable=TRUE) {
     }
     metodo = 'desfavorable';
   }
+  #Recogemos los resultados para mostralo
   resultados = list();
   resultados$criterio = 'Hurwicz';
   resultados$alfa = alfa;
@@ -165,6 +168,7 @@ criterio.Hurwicz.General = function(tablaX,alfa=0.3,favorable=TRUE) {
 
 ```
 
+Al aplicar la función de criterio.Hurwicz.General a nuestro problema y indicarle si queremos el alfa deseado,nos devolverá la tabla del problema que le hemos indicado, el valor de las alternativas con la función de Hurwicz, el valor y la alternativa optima. 
 
 ## Criterio Savage
 
