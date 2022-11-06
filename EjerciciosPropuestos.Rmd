@@ -10,9 +10,9 @@ knitr::opts_chunk$set(echo = TRUE)
 source("teoriadecision_funciones_incertidumbre.R")
 ```
 
-# Ejercicio 1
+# Ejercicio 1 - Jimena López
 
-Un estudiante quiere decidir que debe hacer al terminar sus estudios de grado. Suponiendo que todas las opciones son posibles, desea escoger la mejor alternativa para su futuro.
+Un estudiante quiere decidir qué debe hacer al terminar sus estudios de grado. Suponiendo que todas las opciones son posibles, desea escoger la mejor alternativa para su futuro.
 
 -   Alternativas
 
@@ -62,17 +62,17 @@ Ahora se aplican los criterios bajo incertidumbre vistos en clase
 criterio.Todos(Tabla1,favorable=TRUE)
 ```
 
-El criterio pesimista recomienda al estudiante trabajar en su país origen o hacer una maestría en su país de origen y trabajar. El criterio optimista recomienda trabajar en el extranjero o hacer una maestría y trabajar en el extranjero. Los demás criterios recomiendan hacer una maestría en su país de origen y trabajar.
+El criterio pesimista recomienda al estudiante trabajar en su país de origen o hacer una maestría en su país de origen y trabajar. El criterio optimista recomienda trabajar en el extranjero o hacer una maestría y trabajar en el extranjero. Los demás criterios recomiendan hacer una maestría en su país de origen y trabajar.
 
 # Ejercicio 2 - María Benítez Moreno
 
 Estoy organizando un viaje a Italia del 7 al 14 de noviembre y tengo dos posibles agencias de viajes con las que puedo organizar el viaje, de las cuales ofrecen dos paquetes promocinales por black friday de viajes a Italia cada una.
 
-- Disfruta, ofrece un paquete de lujo y otro económico. En el paquete de lujo se dispune de un asiento en primera clase para el vuelo de ida y vuelta(De Sevilla a Roma), además de un hotel(con desayuno incluido) de 4 estrellas cerca de la Basilica de San Pedro en Roma, por un precio de 1800€, sin desayuno sería 1700€, si además quieres excursiones con visitas guiadas por varios lugares emblematicos de italia serían de 500€. En el paquete económico se oferta un asinto en clase turista para el viaje de ida y de vuelta , además del hotel en Roma con desayuno incluido seria de 1.040€, y sin desayuno seria de 1000€.
+- Disfruta, ofrece un paquete de lujo y otro económico. En el paquete de lujo se dispone de un asiento en primera clase para el vuelo de ida y vuelta (De Sevilla a Roma), además de un hotel (con desayuno incluido) de 4 estrellas cerca de la Basílica de San Pedro en Roma, por un precio de 1800€, sin desayuno sería 1700€, si además quieres excursiones con visitas guiadas por varios lugares emblemáticos de Italia serían de 500€. En el paquete económico se oferta un asiento en clase turista para el viaje de ida y de vuelta, además del hotel en Roma con desayuno incluido sería de 1.040€, y sin desayuno sería de 1000€.
 
-- Vuelin. ofrece un paquete de lujo y otro económico.El paqute de lujo ofrece 
-viajes de ida y vuelta en primera clase(De Sevilla a Roma),y hotel con desayuno incluido por 1900€, sin desayuno por 1800€,
-LUJO DESAYUNO 1900€ sin  1800€ , 400€ excrusion económico 1.100€ desay 954€ sin
+- Vuelin. Ofrece un paquete de lujo y otro económico. El paqute de lujo ofrece 
+viajes de ida y vuelta en primera clase (de Sevilla a Roma), y hotel con desayuno incluido por 1900€, sin desayuno por 1800€,
+LUJO DESAYUNO 1900€ sin  1800€ , 400€ excursión económico 1.100€ desay 954€ sin
 
 En todos los paquetes de ambas agencias de viajes incluye el traslado al hotel
 desde el aeropuerto.
@@ -84,13 +84,14 @@ Plantemaos el problema con:
       3. Vuelin Lujo
       4. Vuelin Económico
       
-    - Esdados de la naturaleza:
-        1. Vuelos + Hotel(con desayuno)
-        2. Vuelos + Hotel(sin desayuno)
-        2. Vuelos + Hotel(con desayuno) + excursion
-        4. Vuelos + Hotel(sin desayuno) + excursion
+    - Estados de la naturaleza:
+      1. Vuelos + Hotel(con desayuno)
+      2. Vuelos + Hotel(sin desayuno)
+      3. Vuelos + Hotel(con desayuno) + excursión
+      4. Vuelos + Hotel(sin desayuno) + excursión
 
-El objetivo será minimizar los costes      
+El objetivo será minimizar los costes.
+
 ```{r}
 #Definimos la tabla
 m11<-1800
@@ -119,6 +120,7 @@ criterio.Todos(pb2,favorable = F)
 
 knitr::kable(criterio.Todos(pb2,favorable = F)$Tabla)
 ```
+
 La mejor opción es Vuelin Económico, tanto si queremos la opción con o sin 
 excursión.
 
@@ -133,7 +135,7 @@ Hemos recibido varias ofertas de distintas compañías, por lo general todas ell
 
 - Orange: Al darte de alta tienes que pagar 10€, la línea móvil con datos cuesta un precio de 40€ mensuales, si le añadimos la red Wi-Fi nos cuesta un precio de 20€ mensuales y la TV nos cuesta 35€ extras mensuales.
 
-- Vodafone: no tiene coste fijo. la línea móvil con datos ilimitados tiene un coste anual de 360€, para la red Wi-Fi hay que pagar 30€ por la instalación y 10€ por mes. El precio de la tarifa de la TV son 40€ mensuales. 
+- Vodafone: no tiene coste fijo. La línea móvil con datos ilimitados tiene un coste anual de 360€, para la red Wi-Fi hay que pagar 30€ por la instalación y 10€ por mes. El precio de la tarifa de la TV son 40€ mensuales. 
 
 Queremos saber qué compañía es la más rentable durante el primer año de contrato, ya que tenemos intención de firmar el contrato de 1 año.
 
@@ -178,6 +180,7 @@ tablaej3
 res = criterio.Todos(tablaej3,alfa = 0.4,favorable = F)
 res
 ```
+
 Como podemos ver en nuestra tabla la mejor opción es darse de alta con Vodafone ya que gana en tres criterios de 6.
 
 # Ejercicio 4 - Lucía Martín Periáñez
@@ -214,7 +217,7 @@ Teniendo en cuenta que los precios son los siguientes:
 - Consulta por castración: 30 euros.
 - Una dosis de vacuna: 9 euros.
 
-¿Cuando sería mejor que lo castrara para que el coste sea mínimo?
+¿Cuándo sería mejor que lo castrara para que el coste sea mínimo?
 
 Planteamos nuestro problema de decisión:
   
@@ -246,6 +249,7 @@ tb04 <- crea.tablaX(c(m11,m12,m21,
 res <- criterio.Todos(tb04,alfa=0.5,favorable=FALSE)
 res
 ```
+
 La mejor alternativa es la segunda, es decir, darle de alta en la clínica "Peludos"
 ya que es la preferida en 6 de los 6 criterios que se implementaron.
 
@@ -253,16 +257,24 @@ ya que es la preferida en 6 de los 6 criterios que se implementaron.
 
 Claudia quiere apuntarse a una academia de inglés y está barajando distintas opciones para ver cuál le sale mejor de precio. Su idea es empezar en enero y hacer un curso intensivo de 6 meses para tener el título antes de verano. Estas son las tres academias que ha encontrado con la opción de curso intensivo:
 
-  - Academia 1. Matrícula gratuita. Con un precio de 110€ al mes y tiene la opción de incluir el libro de la academia por 50€ más o usar sus propios apuntes que coja en clase. Además, incluye un simulacro de examen antes de la prueba oficial.
+  - Academia 1. Matrícula gratuita. Con un precio de 110€ al mes y tiene la opción de incluir el libro de la academia por 50€ más o usar sus propios apuntes que coja en clase. Además, incluye un simulacro de exámen antes de la prueba oficial.
   
   - Academia 2. La matrícula tiene un coste de 70€ y el mes sale a 75€. Obligan a usar libro, el cuál se tiene que pagar en el momento de matriculación y cuesta 45€. Si quiere hacer exámenes de prueba, tendrá que pagar 30€ también en el momento en el que se matricule.
   
   - Academia 3. La matrícula tiene un coste de 90€ y el mes sale a 80€. Ahora hay un oferta en la que por 5€ más al mes se tiene el libro incluído y 2 exámenes de prueba.
   
-  Estados de la naturaleza:
+¿En qué academia se debería apuntar si busca la más barata?
+
+Planteamiento del problema:
+
+  -Alternativas
+  1. Academia 1
+  2. Academia 2
+  3. Academia 3
   
-  - Matriculación y mensualidad
-  - Matriculación y mensualidad + libro + exámenes de prueba
+  - Estados de la naturaleza
+  1. Matriculación y mensualidad
+  2. Matriculación y mensualidad + libro + exámenes de prueba
   
 Resolución del problema (minimizando los costos):
 
