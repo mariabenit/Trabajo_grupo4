@@ -64,12 +64,189 @@ criterio.Todos(Tabla1,favorable=TRUE)
 
 El criterio pesimista recomienda al estudiante trabajar en su país origen o hacer una maestría en su país de origen y trabajar. El criterio optimista recomienda trabajar en el extranjero o hacer una maestría y trabajar en el extranjero. Los demás criterios recomiendan hacer una maestría en su país de origen y trabajar.
 
-# Ejercicio 2
+# Ejercicio 2 - María Benítez Moreno
 
-Estoy organizando un viaje a Italia y tengo tres posibles agencias de viajes con las que puedo organizar el viajes, de las cuales ofrecen dos paquetes de viajes a Italia cada una.
+Estoy organizando un viaje a Italia del 7 al 14 de noviembre y tengo dos posibles agencias de viajes con las que puedo organizar el viaje, de las cuales ofrecen dos paquetes promocinales por black friday de viajes a Italia cada una.
 
-# Ejercicio 3
+- Disfruta, ofrece un paquete de lujo y otro económico. En el paquete de lujo se dispune de un asiento en primera clase para el vuelo de ida y vuelta(De Sevilla a Roma), además de un hotel(con desayuno incluido) de 4 estrellas cerca de la Basilica de San Pedro en Roma, por un precio de 1800€, sin desayuno sería 1700€, si además quieres excursiones con visitas guiadas por varios lugares emblematicos de italia serían de 500€. En el paquete económico se oferta un asinto en clase turista para el viaje de ida y de vuelta , además del hotel en Roma con desayuno incluido seria de 1.040€, y sin desayuno seria de 1000€.
 
-# Ejercicio 4
+- Vuelin. ofrece un paquete de lujo y otro económico.El paqute de lujo ofrece 
+viajes de ida y vuelta en primera clase(De Sevilla a Roma),y hotel con desayuno incluido por 1900€, sin desayuno por 1800€,
+LUJO DESAYUNO 1900€ sin  1800€ , 400€ excrusion económico 1.100€ desay 954€ sin
+
+En todos los paquetes de ambas agencias de viajes incluye el traslado al hotel
+desde el aeropuerto.
+Plantemaos el problema con:
+
+    - Alternativas:
+      1. Disfruta Lujo
+      2. Disfruta Econónomico
+      3. Vuelin Lujo
+      4. Vuelin Económico
+      
+    - Esdados de la naturaleza:
+        1. Vuelos + Hotel(con desayuno)
+        2. Vuelos + Hotel(sin desayuno)
+        2. Vuelos + Hotel(con desayuno) + excursion
+        4. Vuelos + Hotel(sin desayuno) + excursion
+
+El objetivo será minimizar los costes      
+```{r}
+#Definimos la tabla
+m11<-1800
+m12<-1700
+m13<-1800+500
+m14<-1700+500
+m21<-1040
+m22<-1000
+m23<-1040+500
+m24<-1000+500
+m31<-1900
+m32<-1800
+m33<-1900+400
+m34<-1800+400
+m41<-1100
+m42<-954
+m43<-1100+400
+m44<-954+400
+pb2<-crea.tablaX(c(m11,m12,m13,m14,
+                 m21,m22,m23,m24,
+                 m31,m32,m33,m34,
+                 m41,m42,m43,m44),numalternativas = 4,numestados = 4)
+rownames(pb2)<-c("Disfruta Lujo","Disfruta Econónomico","Vuelin Lujo",
+                 "Vuelin Económico")
+criterio.Todos(pb2,favorable = F)
+
+knitr::kable(criterio.Todos(pb2,favorable = F)$Tabla)
+```
+La mejor opción es Vuelin Económico, tanto si queremos la opción con o sin 
+excursión.
+
+# Ejercicio 3 - Sebastián Florido
+
+Planteamos un problema de decisión para elegir que compañía telefónica nos interesa contratar durante el año que vamos a residir fuera de nuestra casa.
+Hemos recibido varias ofertas de distintas compañías, por lo general todas ellas han ofrecido tres tipos de contrato (el primero incluye línea móvil con datos ilimitados, el segundo línea móvil + red Wi-Fi y por último te incluye línea móvil + Wi-Fi + TV). Dichas ofertas son las siguientes:
+
+- Movistar: tiene un precio de alta fijo de 30€. Además si quieres una línea con móvil y datos ilimitados tienes que pagar 35€ al mes. Una línea móvil con datos más la red Wi-Fi en casa tiene un coste de 45€ mensules, y si le quieres añadir  TV los primeros dos meses no tiene un coste adicional porque nos lo incluye con el Wi-Fi pero a partir del tercer mes son 30€ extras.
+
+- Yoigo: No tiene precio de alta. La tarifa mensual por la línea móvil con datos son de 20€ durante los primeros 6 meses y a partir de ahí 30€ mensuales. La red Wi-fi tiene un coste de 40€ por la instalación más 30€ mensuales, además la TV tiene un precio fijo de 190€ al año.
+
+- Orange: Al darte de alta tienes que pagar 10€, la línea móvil con datos cuesta un precio de 40€ mensuales, si le añadimos la red Wi-Fi nos cuesta un precio de 20€ mensuales y la TV nos cuesta 35€ extras mensuales.
+
+- Vodafone: no tiene coste fijo. la línea móvil con datos ilimitados tiene un coste anual de 360€, para la red Wi-Fi hay que pagar 30€ por la instalación y 10€ por mes. El precio de la tarifa de la TV son 40€ mensuales. 
+
+Queremos saber qué compañía es la más rentable durante el primer año de contrato, ya que tenemos intención de firmar el contrato de 1 año.
+
+Planteamos nuestro problema de decisión:
+ - Alternativas:
+  1. Movistar.
+  2. Yoigo.
+  3. Orange.
+  4. Vodafone.
+  
+ - Estados de la naturaleza:
+  1. Tarifa móvil + datos ilimitados.
+  2. Tarifa móvil + datos ilimitados + Wi-Fi.
+  3. Tarifa móvil + datos ilimitados + Wi-Fi + TV.
+  
+ - Matriz de decisión:
+```{r}
+md11 = 30+35*12
+md12 = 30+45*12
+md13 = 30+45*12+30*10
+md21 = 20*6+30*6
+md22 = 20*6+30*6+40+30*12
+md23 = 20*6+30*6+40+30*12+ 190
+md31 = 10+40*12
+md32 = 10+40*12+20*12
+md33 = 10+40*12+20*12+35*12
+md41 = 360
+md42 = 360+30+10*12
+md43 = 360+30+10*12+40*12
+```
+ 
+Resolvemos el problema:
+```{r}
+tablaej3<-crea.tablaX(c(md11,md12,md13,
+                        md21,md22,md23,
+                        md31,md32,md33,
+                        md41,md42,md43), numalternativas = 4,numestados = 3)
+rownames(tablaej3)<-c("Movistar","Yoigo","Orange","Vodafone")
+tablaej3
+```
+```{r}
+res = criterio.Todos(tablaej3,alfa = 0.4,favorable = F)
+res
+```
+Como podemos ver en nuestra tabla la mejor opción es darse de alta con Vodafone ya que gana en tres criterios de 6.
+
+# Ejercicio 4 - Lucía Martín Periáñez
+
+Raúl está estudiando la posibilidad de dar de alta a su perro en una clínica 
+veterinaria. Al ser un cachorro tiene que ponerse durante dos años
+una vacuna cada mes. Y además quiere castrarlo pero no sabe si lo hará en el 
+primer año o segundo año que esté dado de alta. Por lo que su objetivo es gastarse
+el menor dinero posible.
+Tras visitar las tres que se encuentran en su ciudad, estas son las conclusiones
+que saca:
+  
+- En la clínica veterinaria "Canitas" debe pagar una cuota mensual de 25 euros,
+  pero no cubre todas las consultas de vacunas y las dosis de vacunas hasta que 
+  no hayan pasado 12 meses.
+  Hasta entonces, cada consulta por vacuna valdrá la mitad y cada dosis de la 
+  vacuna valdrá 1/3. 
+  Si la castración se hace en el primer año dado de alta, se le cobrará
+  el precio de una consulta. Si se castra después, le costará la mitad.
+  
+- En la clínica veterinaria "Peludos" debe pagar una cuota mensual de 10 euros y 
+  a parte debe pagar 5 euros por cada consulta de vacuna. Además, tendrá que pagar
+  el precio de la vacuna que se le pone al cachorro. La consulta por castración
+  en el primer año valdrá la mitad de precio y en el segundo año será gratis,
+  pero aumentará a 15 euros la cuota mensual.
+  
+- En la clínica veterinaria "Miau" debe pagar una cuota mensual de 50 euros, lo
+  que cubrirá todos los gastos excepto la castración. En el primer año de alta,
+  la castración costará su precio original. Y en el segundo año de alta, la 
+  castración costará 1/4 de su precio original.
+  
+Teniendo en cuenta que los precios son los siguientes:
+- Consulta para poner la vacuna: 18 euros.
+- Consulta por castración: 30 euros.
+- Una dosis de vacuna: 9 euros.
+
+¿Cuando sería mejor que lo castrara para que el coste sea mínimo?
+
+Planteamos nuestro problema de decisión:
+  
+- Alternativas:
+  1. Canitas.
+  2. Peludos.
+  3. Miau.
+  
+- Estados de la naturaleza:
+  1. Antes de un año.
+  2. Después de un año.
+
+- Matriz de decisión:
+```{r}
+m11 <- 25*12 + (18/2)*12 + (9/3)*12 + 30
+m12 <- 25*12 + 30/2
+m21 <- 10*12 + 5*12 + 9*12 + 30/2
+m22 <- 15*12 + 5*12 + 9*12
+m31 <- 50*12 + 30
+m32 <- 50*12 + 30/4 
+```
+
+Resolvemos el problema:
+```{r}
+tb04 <- crea.tablaX(c(m11,m12,m21,
+                      m22,m31,m32),
+                    numalternativas = 3,
+                    numestados = 2)
+res <- criterio.Todos(tb04,alfa=0.5,favorable=FALSE)
+res
+```
+La mejor alternativa es la segunda, es decir, darle de alta en la clínica "Peludos"
+ya que es la preferida en 6 de los 6 criterios que se implementaron.
 
 # Ejercicio 5

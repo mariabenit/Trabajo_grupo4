@@ -10,6 +10,7 @@ output:
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, eval = FALSE)
+
 ```
 
 # ¿Qué hacen las funciones de incertidumbre?
@@ -93,7 +94,148 @@ criterio.Optimista = function(tablaX,favorable=TRUE) {
 
 ## Criterio Hurwicz
 
+En este criterio se combinan las aptitudes pesimistas y optimistas, valorando 
+cada alternativa con una ponderación entre lo mejor y lo peor posible, que
+denominamos alfa(índice de optimismo). 
+
+```{r}
+criterio.Hurwicz.General = function(tablaX,alfa=0.3,favorable=TRUE) {
+  # si alfa es un escalar entre 0 y 1 lo obtiene para ese único valor
+  # si alfa es igual a un número mayor que 1, lo usa para obtener cálculos para dividir el rango 0-1
+  #En algún punto de alfa(dependiendo de nuestro problema), ocurrira que la 
+  #solución del criterio optimista es igual de buena que la pesimista para este 
+  #criterio.
+  #Indicamos favorable igual a TRUE si estamos trabajando con la matriz de 
+  #beneficios
+  X = tablaX;
+  if (favorable) {#En el caso de que estemos trabajando con la matriz de 
+    #beneficios, que indicamos si hemos puesto favorable =T
+    Altmin = apply(X,MARGIN=1,min);#Obtemos el mínimo por filas 
+    Altmax= apply(X,MARGIN=1,max);#Obtenemos el maximo por columnas
+    if (alfa<=1) {#Si estamos trabajando con un alfa menor a uno
+      valfa = c(alfa);
+    } else {
+      valfa = seq(from=0,to=1,by=(1/alfa)); ## alfa: 100, 200,
+    }
+    vHurwicz = rep(0,length(valfa))
+    Alt_vHurwicz = rep(0,length(valfa))
+    for (i in 1:length(valfa)) {
+      alfab = valfa[i];
+      vAltH = alfab * Altmax + (1-alfab) * Altmin;
+      #Con ValtH, tenemos la función de Hurwicz, alfa le da peso al criterio 
+      #optimista
+      vHurwicz[i] = max(vAltH);
+      Alt_vHurwicz[i] = which.max(vAltH);
+      Alt_vHurwicz_g = which.max.general(vAltH);
+    }
+    metodo = 'favorable';
+  } else {#Hacemos algo similar pero ahora tenid
+    Altmin = apply(X,MARGIN=1,min);
+    Altmax= apply(X,MARGIN=1,max);
+    if (alfa<=1) {
+      valfa = c(alfa);
+    } else {
+      valfa = seq(from=0,to=1,by=(1/alfa)); ## alfa: 100, 200,
+    }
+    vHurwicz = rep(0,length(valfa))
+    Alt_vHurwicz = rep(0,length(valfa))
+    for (i in 1:length(valfa)) {
+      alfab = valfa[i];
+      vAltH = (1-alfab) * Altmax + alfab * Altmin;
+      vHurwicz[i] = min(vAltH);
+      Alt_vHurwicz[i] = which.min(vAltH);
+      Alt_vHurwicz_g = which.min.general(vAltH);
+
+    }
+    metodo = 'desfavorable';
+  }
+  #Recogemos los resultados para mostralo
+  resultados = list();
+  resultados$criterio = 'Hurwicz';
+  resultados$alfa = alfa;
+  resultados$metodo = metodo;
+  resultados$tablaX = tablaX;
+  resultados$ValorAlternativas = vAltH;
+  resultados$ValorOptimo = vHurwicz;
+  if (length(valfa)==1) {
+    resultados$AlternativaOptima = Alt_vHurwicz_g;
+  } else {
+    resultados$AlternativaOptima = Alt_vHurwicz;
+  }
+
+  return(resultados);
+
+
+
+}
+
+
+```
+
+Al aplicar la función de criterio.Hurwicz.General a nuestro problema y indicarle si queremos el alfa deseado,nos devolverá la tabla del problema que le hemos indicado, el valor de las alternativas con la función de Hurwicz, el valor y la alternativa optima. 
+
 ## Criterio Savage
+
+Este criterio toma en consideración el coste de oportunidad por no preveer 
+correctamente el estado de la naturaleza. Estos costes de oportunidad se evalúan 
+para cada alternativa y cada estado, haciendo la diferencia entre lo mejor de
+ese estado y lo que proporciona esa alternativa para ese estado, construyendo la 
+llamada matriz de penalizaciones o costes de oportunidad. A esta matriz se le
+aplica el criterio de minimizar el máximo arrepentimiento.
+
+criterio.Savage = function(tablaX,favorable=TRUE) {
+# hemos definido que por defecto tengamos favorable=TRUE, que indica que estamos trabajando con la matriz de beneficios
+  X = tablaX; 
+  if (favorable) { # si trabajamos con la matriz de beneficios se busca el máximo
+    Mejores = apply(X,MARGIN=2,max); # a la tabla que vamos a estudiar le hace el máximo por columnas 
+    temp1 = rep(Mejores,dim(X)[1]) # repetir los valores anteriores tantas veces como filas tenga la tabla 
+    Mmejores = matrix(temp1,nrow=dim(X)[1],ncol=dim(X)[2],byrow=TRUE); # hacer una matriz con los valores anteriores que tenga el mismo número de filas y de columnas que tiene la tabla
+    Pesos = abs(Mmejores-X); #calculamos los pesos hallando el valor absoluto de la diferencia entre la matriz anterior y la tabla  
+    ## Ahora criterio Wald Minimax Pesimista (desfavorable)
+    AltWS= apply(Pesos,MARGIN=1,max); # a los pesos le calculamos el máximo por filas
+    Savage = min(AltWS); # de los valores anteriores nos quedamos con el valor mínimo
+    Alt_Savage = which.min.general(AltWS); # posición en la que se encuentra el valor mínimo
+    metodo = 'favorable'; # si favorable=TRUE, el método usado será "favorable"
+  } else { # si trabajamos con la matriz de costos se busca el mínimo
+    Mejores = apply(X,MARGIN=2,min); # a la tabla le hace el mínimo por columnas
+    temp1 = rep(Mejores,dim(X)[1]) # repetir los valores anteriores tantas veces como filas tenga la tabla
+    Mmejores = matrix(temp1,nrow=dim(X)[1],ncol=dim(X)[2],byrow=TRUE); # hacer una matriz con los valores anteriores que tenga el mismo número de filas y de columnas que tiene la tabla
+    Pesos = abs(Mmejores-X); #calculamos los pesos hallando el valor absoluto de la diferencia entre la matriz anterior la tabla y 
+    ## Ahora criterio Wald Minimax (desfavorable)
+    AltWS= apply(Pesos,MARGIN=1,max); # a los pesos le calculamos el máximo por filas
+    Savage = min(AltWS); # de los valores anteriores nos quedamos con el valor mínimo
+    Alt_Savage = which.min.general(AltWS); # posición en la que se encuentra el valor mínimo
+    metodo = 'desfavorable'; # si favorable=FALSE, el método usado será "desfavorable"
+  }
+  
+  # los comandos siguientes son los resultados que queremos que nos muestre al compilar esta función
+  resultados = list();
+  resultados$criterio = 'Savage';
+  resultados$metodo = metodo;
+  resultados$tablaX = tablaX;
+  resultados$Mejores = Mejores;
+  resultados$Pesos = Pesos;
+  resultados$ValorAlternativas = AltWS;
+  resultados$ValorOptimo = Savage;
+  resultados$AlternativaOptima = Alt_Savage;
+  
+  return(resultados);
+  
+  
+}
+
+
+Savage argumenta que después de tomar una decisión y de conocer el resultado, el 
+decisor puede arrepentirse de haber seleccionado una alternativa concreta. 
+Y por lo tanto, debe tratar de que ese arrepentimiento se reduzca al mínimo, es
+decir, la alternativa seleccionada será aquella que minimice el arrepentimiento. 
+
+Todo esto lo consguimos gracias a esta función y al compilarla, obtendremos los
+siguientes resultados: el nombre del criterio usado (que en este caso será 
+Savage), el método usado, la tabla con la que queremos trabajar, el máximo o el 
+mínimo por columnas dependiendo del método y al cual hemos denominado "mejores", 
+los pesos, el valor de las alternativas, el valor óptimo y la posición de la
+alternativa óptima.
 
 ## Criterio Laplace
 
@@ -135,3 +277,70 @@ Mediante a función criterio.Laplace aplicamos este criterio a nuestro problema 
 Le hemos añadido a la función un texto que nos indica cual es la alternativa óptima.
 
 ## Criterio PuntoIdeal
+
+Es un criterio de cierta forma geométrico, pues como su nombre lo indica, lo que hace es definir un punto ideal (en $\mathbb{R}^{c}$), siendo $c$ el número de criterios) que representa la alternativa ideal considerando el valor máximo de cada criterio observando todas las alternativas (en el caso de que sea favorable). Luego, se define la valoración de dicha alternativa como la distancia del punto en $\mathbb{R}^{c}$, cuyos elementos son las valoraciones para cada criterio de dicha alternativa y el punto ideal definido. Esta distancia puede definirse de varias formas, la que usa esta función es la distancia euclideana.
+
+```{r}
+criterio.PuntoIdeal = function(tablaX,favorable=TRUE) {
+
+  # Recibe la tabla de alternativas y valoraciones para cada crietrio
+  X = tablaX;
+  
+  # Si la matriz es de beneficios se busca el maximo
+  if (favorable) {
+    # Se define el vector MejoresPT como el vector que resulta 
+    # de aplicar la funcion maximo a cada columna de la matriz (cada criterio),
+    # por lo que resulta de longitud el numero de alternativas
+    MejoresPT = apply(X,MARGIN=2,max); # favorable
+    
+    # Se define la variable AltPT como un vector de ceros
+    # con longitud el numero de filas de la tabla (alternativas)
+    AltPT = rep(0,dim(X)[1])
+    
+    # Se redefine cada elemento del vector AltPT como la distancia euclideana
+    # entre la alternativa y el punto ideal
+    # Es decir, que resulta un vector con la valoración para cada alternativa
+    for (i in 1:dim(X)[1]) {
+      AltPT[i] = distanciaEuclidea(MejoresPT,X[i,])
+    }
+    # Se le asigna el nombre de la alternativa a la columna de AltPT correspondiente
+    names(AltPT) = rownames(tablaX)
+    # La (o las) alternativa optimas sera aquella que tenga la menor distancia
+    # por eso se define la variable PuntoIdeal
+    PuntoIdeal = min(AltPT);
+    # Con la funcion which.min.general definida previamente se almacena en la variable
+    # Alt_PuntoIdeal el vector con la (o las) posicion de la alternativa almacenada en PuntoIdeal
+    Alt_PuntoIdeal = which.min.general(AltPT);
+    metodo = 'favorable';
+  # Si no es de beneficios, sera de costos, es decir, que el punto ideal no sera el maximo
+  # sino el minimo, por lo que se repite el proceso pero ahora tomando en minimo
+  } else {
+    MejoresPT = apply(X,MARGIN=2,min); # desfavorable
+    AltPT = rep(0,dim(X)[1])
+    names(AltPT) = rownames(tablaX)
+    for (i in 1:dim(X)[1]) {
+      AltPT[i] = distanciaEuclidea(MejoresPT,X[i,])
+    }
+    ##AltPT
+    PuntoIdeal = min(AltPT);
+    Alt_PuntoIdeal = which.min.general(AltPT);
+    metodo = 'desfavorable';
+  }
+  # Se construye una lista que contiene distintas caracteristicas
+  # del metodo empleado y el resultado para que devuelva al usar la funcion
+  resultados = list();
+  resultados$criterio = 'Punto Ideal';
+  resultados$metodo = metodo;
+  resultados$tablaX = tablaX;
+  resultados$Mejores = MejoresPT;
+  resultados$ValorAlternativas = AltPT;
+  resultados$ValorOptimo = PuntoIdeal;
+  resultados$AlternativaOptima = Alt_PuntoIdeal;
+  resultados$Recomendación = paste("Por lo tanto, 
+                                   la alternativa recomendada es la número", Alt_PuntoIdeal);
+
+
+  return(resultados);
+
+}
+```
